@@ -9,7 +9,7 @@ jobs:
     environment:
 
       MAVEN_OPTS: -Xmx3200m
-      TERM: dumb
+      
 
     steps:
       - checkout
@@ -17,7 +17,7 @@ jobs:
       - run:
            name: Save test results
            command: |
-              mkdlr -p -/test-results/junit/
+              mkdir -p -/test-results/junit/
               find . -type f -regex ".*/target/surelife-reports/.*xml" -exec cp {} -/test-results/junit/ \;
           when: always
       - store_test_results:
