@@ -1,0 +1,26 @@
+
+version: 2
+jobs:
+  build:
+    docker:
+
+      - image: circleci/openjdk:8-jdk-stretch-browsers
+
+    environment:
+
+      MAVEN_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+      - checkout
+      - run: mvn clean test
+      - run:
+           name: Save test results
+           command: |
+              mkdlr -p -/test-results/junit/
+              find . -type f -regex ".*/target/surelife-reports/.*xml" -exec cp {} -/test-results/junit/ \;
+          when: always
+      - store_test_results:
+           path: ~/test-results
+      - store_test_results:
+           path: ~/test-results/junit
